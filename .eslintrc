@@ -1,0 +1,36 @@
+{
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true,
+      "experimentalObjectRestSpread": true
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "es6": true
+    },
+    "parser": "babel-eslint",
+    "rules": {
+      "react/jsx-filename-extension": [1, {
+        "extensions": [".js", ".jsx"]
+      }],
+      "react/forbid-prop-types": 0,
+      "function-paren-newline": ["error", "consistent"],
+      "jsx-a11y/anchor-is-valid": [ "error", {
+        "components": [ "Link" ],
+        "specialLink": [ "to" ]
+      }],
+      "prettier/prettier": "error",
+      "quotes": [2, "single"],
+      "strict": [2, "never"],
+      "react/jsx-uses-react": 2,
+      "react/jsx-uses-vars": 2,
+      "react/react-in-jsx-scope": 2
+    },
+    "plugins": [
+      "react",
+      "prettier"
+    ],
+    "extends": ["prettier"]
+  }
+ 

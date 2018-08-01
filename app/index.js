@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import BoardContainer from "./components/BoardContainer";
 import { Router } from "react-router-dom";
 import createBrowserHistory from "history/createBrowserHistory";
-import BoardContainer from "./components/BoardContainer";
+import { requireAuth } from './utils/AuthService';
 
 ReactDOM.render(
   <Router history={createBrowserHistory()}>
