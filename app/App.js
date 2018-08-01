@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
-import {render} from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Router } from "react-router-dom";
+import createBrowserHistory from "history/createBrowserHistory";
+import BoardContainer from "./components/BoardContainer";
 
-class App extends Component {
-  render(){
-    return (
-      <h1>Hello World</h1>
-    );
-  }
-}
+ReactDOM.render(
+  <Router history={createBrowserHistory()}>
+    <BoardContainer />
+  </Router>,
+  document.getElementById("root")
+);
 
-render(<App />, document.getElementById('root'));
+/* import ContactsAppContainer from './ContactMiniApp/ContactsAppContainer'
+
+  ReactDOM.render(<ContactsAppContainer />, document.getElementById('root')); */

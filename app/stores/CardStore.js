@@ -63,8 +63,8 @@ class CardStore extends ReduceStore {
       * Card Drag 'n Drop
       */
       case constants.UPDATE_CARD_POSITION:
-        if (Action.payload.cardId !== action.payload.afterId) {
-          cardIndex = this.getCardIndex(Action.payload.cardId);
+        if (action.payload.cardId !== action.payload.afterId) {
+          cardIndex = this.getCardIndex(action.payload.cardId);
           let card = this.getState()[cardIndex];
           let afterIndex = this.getCardIndex(action.payload.afterId);
           return update(this.getState(), {
@@ -174,6 +174,19 @@ class CardStore extends ReduceStore {
               [action.payload.taskIndex]: {
                 done: { $apply: done => !done }
               }
+            }
+          }
+        });
+
+      /*
+        * Card Status Toggle
+        */
+      case constants.TOGGLE_CARD_DETAILS:
+        cardIndex = this.getCardIndex(action.payload.cardId);
+        return update(this.getState(), {
+          [cardIndex]: {
+            showDetails: {
+              $apply: currentValue => (currentValue !== false ? false : true)
             }
           }
         });

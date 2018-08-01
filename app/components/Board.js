@@ -17,24 +17,18 @@ const Board = props => {
       <List
         id="todo"
         title="To Do"
-        cardCallbacks={cardCallbacks}
-        taskCallbacks={taskCallbacks}
         cards={cards.filter(card => card.status === "todo")}
       />
 
       <List
         id="in-progress"
         title="In Progress"
-        cardCallbacks={cardCallbacks}
-        taskCallbacks={taskCallbacks}
         cards={cards.filter(card => card.status === "in-progress")}
       />
 
       <List
         id="done"
         title="Done"
-        cardCallbacks={cardCallbacks}
-        taskCallbacks={taskCallbacks}
         cards={cards.filter(card => card.status === "done")}
       />
       <Route path="/new" component={NewCard} />
@@ -44,9 +38,7 @@ const Board = props => {
 };
 
 Board.propTypes = {
-  cards: PropTypes.arrayOf(PropTypes.object),
-  taskCallbacks: PropTypes.object,
-  cardCallbacks: PropTypes.object
+  cards: PropTypes.arrayOf(PropTypes.object)
 };
 
 export default DragDropContext(HTML5Backend)(Board);

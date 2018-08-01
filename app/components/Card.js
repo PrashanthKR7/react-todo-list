@@ -6,6 +6,7 @@ import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import { DragSource, DropTarget } from "react-dnd";
 import constants from "../constants";
 import { Link, withRouter } from "react-router-dom";
+import CardActionCreators from "../actions/CardActionCreators";
 
 const cardDragSpec = {
   beginDrag(props) {
@@ -15,14 +16,16 @@ const cardDragSpec = {
     };
   },
   endDrag(props) {
-    props.cardCallbacks.persistCardDrag(props.id, props.status);
+    CardActionCreators.persistCardDrag(props);
   }
 };
 
 const cardDropSpec = {
   hover(props, monitor) {
     const draggedId = monitor.getItem().id;
-    props.cardCallbacks.updatePosition(draggedId, props.id);
+    if (props.id !== draggedId) {
+      CardActionCreators.updateCardPosition(draggedId, props.id);
+    }
   }
 };
 
@@ -46,24 +49,24 @@ class Card extends Component {
     };
   }
 
+  componentDidMount() {
+    setTimeout(() => this.toggleDetails(), 0);
+  }
+
   toggleDetails() {
-    this.setState({ showDetails: !this.state.showDetails });
+    CardActionCreators.toggleCardDetails(this.props.id);
   }
   render() {
     const { connectDragSource, connectDropTarget } = this.props;
 
     let cardDetails;
-    if (this.state.showDetails) {
+    if (this.props.showDetails !== false) {
       cardDetails = (
         <div className="card__details">
           <span
             dangerouslySetInnerHTML={{ __html: marked(this.props.description) }}
           />
-          <CheckList
-            taskCallbacks={this.props.taskCallbacks}
-            cardId={this.props.id}
-            tasks={this.props.tasks}
-          />
+          <CheckList cardId={this.props.id} tasks={this.props.tasks} />
         </div>
       );
     }
@@ -89,7 +92,7 @@ class Card extends Component {
               </div>
               <div
                 className={
-                  this.state.showDetails
+                  this.props.showDetails !== false
                     ? "card__title card__title--is-open"
                     : "card__title"
                 }
@@ -107,7 +110,6 @@ class Card extends Component {
             </div>
           )
         )}
-       
       </div>
     );
   }
@@ -130,13 +132,13 @@ Card.propTypes = {
   description: PropTypes.string,
   color: PropTypes.string,
   tasks: PropTypes.arrayOf(PropTypes.object),
-  taskCallbacks: PropTypes.object,
-  cardCallbacks: PropTypes.object,
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired
 };
 
-const dragHighOrderCard = DragSource(constants.CARD, cardDragSpec, collectDrag)(Card);
+const dragHighOrderCard = DragSource(constants.CARD, cardDragSpec, collectDrag)(
+  Card
+);
 const dragDropHighOrderCard = DropTarget(
   constants.CARD,
   cardDropSpec,

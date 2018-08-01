@@ -2,6 +2,7 @@ import AppDispatcher from "../AppDispatcher";
 import constants from "../constants";
 import API from "../api/Api";
 import { throttle } from "../utils";
+import CardStore from "../stores/CardStore";
 
 let CardActionCreators = {
   fetchCards() {
@@ -62,6 +63,27 @@ let CardActionCreators = {
       },
       { cardProps }
     );
+  },
+
+  toggleCardDetails(cardId) {
+    AppDispatcher.dispatch({
+      type: constants.TOGGLE_CARD_DETAILS,
+      payload: { cardId }
+    });
+  },
+
+  createDraft(card) {
+    AppDispatcher.dispatch({
+      type: constants.CREATE_DRAFT,
+      payload: { card }
+    });
+  },
+
+  updateDraft(field, value) {
+    AppDispatcher.dispatch({
+      type: constants.UPDATE_DRAFT,
+      payload: { field, value }
+    });
   }
 };
 
